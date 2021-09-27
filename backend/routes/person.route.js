@@ -3,8 +3,8 @@ const router = express.Router();
 
 const { handleUser } = require('../controllers/person.controller');
 
-const { validatePerson } = require('../middlewares/person.validator');
+const { validate } = require('../middlewares/validator.middleware');
 
-router.post('/person', validatePerson('handleUser'), handleUser);
+router.post('/person', validate('handleUser'), handleUser);
 
 module.exports = router;

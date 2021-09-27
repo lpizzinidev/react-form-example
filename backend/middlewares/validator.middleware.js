@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
 
-const validatePerson = (method) => {
+const validate = (method) => {
   switch (method) {
     case 'handleUser': {
       return [
@@ -11,9 +11,14 @@ const validatePerson = (method) => {
           .isNumeric()
           .trim()
           .escape(),
+        body('email', 'Insert a valid e-mail')
+          .not()
+          .isEmpty()
+          .isEmail()
+          .normalizeEmail(),
       ];
     }
   }
 };
 
-module.exports = { validatePerson };
+module.exports = { validate };
