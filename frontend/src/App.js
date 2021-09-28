@@ -9,17 +9,14 @@ function App() {
   };
 
   const [formData, setFormData] = useState(initialFormData);
-  const [formErrors, setFormErrors] = useState(initialFormData);
+  const [formErrors, setFormErrors] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       // Send POST request
-      const res = await axios.post(
-        'http://localhost:5000/api/v1/person',
-        formData
-      );
+      await axios.post('http://localhost:5000/api/v1/person', formData);
 
       // HTTP req successful
 
@@ -31,15 +28,21 @@ function App() {
   };
 
   const handleErrors = (err) => {
-    const { errors } = err.response.data;
+    if (err.response.data && err.response.data.errors) {
+      // Handle validation errors
+      const { errors } = err.response.data;
 
-    for (let error in errors) {
-      const { param, msg } = error;
-      console.log(error);
-      setFormErrors({
-        ...formErrors,
-        param: msg,
-      });
+      let errorMsg = [];
+      for (let error of errors) {
+        const { msg } = error;
+
+        errorMsg.push(msg);
+      }
+
+      setFormErrors(errorMsg);
+    } else {
+      // Handle generic error
+      setFormErrors(['Oops, there was an error!']);
     }
   };
 
@@ -48,16 +51,26 @@ function App() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+    setFormErrors([]);
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='form'>
+        <h1>Example form</h1>
+        {formErrors.length > 0 && (
+          <ul className='error'>
+            {formErrors.map((error) => (
+              <li>{error}</li>
+            ))}
+          </ul>
+        )}
         <div>
           <label>Name</label>
           <input
             type='text'
             name='name'
+            className='input'
             value={formData.name}
             onInput={handleChange}
           />
@@ -67,6 +80,7 @@ function App() {
           <input
             type='number'
             name='age'
+            className='input'
             value={formData.age}
             onInput={handleChange}
           />
@@ -76,11 +90,12 @@ function App() {
           <input
             type='email'
             name='email'
+            className='input'
             value={formData.email}
             onInput={handleChange}
           />
         </div>
-        <input type='submit' value='Submit' />
+        <input type='submit' className='button' value='Submit' />
       </form>
     </div>
   );

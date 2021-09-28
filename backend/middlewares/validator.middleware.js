@@ -4,17 +4,26 @@ const validate = (method) => {
   switch (method) {
     case 'handleUser': {
       return [
-        body('name', 'Name is required').not().isEmpty().trim().escape(),
-        body('age', 'Insert a valid age value')
+        body('name')
           .not()
           .isEmpty()
-          .isNumeric()
+          .withMessage('Name is required')
           .trim()
           .escape(),
-        body('email', 'Insert a valid e-mail')
+        body('age')
           .not()
           .isEmpty()
+          .withMessage('Age are required')
+          .isNumeric()
+          .withMessage('Age must be a numeric value')
+          .trim()
+          .escape(),
+        body('email')
+          .not()
+          .isEmpty()
+          .withMessage('E-mail is required')
           .isEmail()
+          .withMessage('Please insert a valid e-mail')
           .normalizeEmail(),
       ];
     }
