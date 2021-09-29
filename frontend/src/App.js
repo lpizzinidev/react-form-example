@@ -9,6 +9,7 @@ function App() {
   };
 
   const [formData, setFormData] = useState(initialFormData);
+  const [formSuccess, setFormSuccess] = useState('');
   const [formErrors, setFormErrors] = useState([]);
 
   const handleSubmit = async (e) => {
@@ -19,6 +20,7 @@ function App() {
       await axios.post('http://localhost:5000/api/v1/person', formData);
 
       // HTTP req successful
+      setFormSuccess('Data received correctly');
 
       // Reset form data
       setFormData(initialFormData);
@@ -52,12 +54,14 @@ function App() {
       [e.target.name]: e.target.value,
     });
     setFormErrors([]);
+    setFormSuccess('');
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit} className='form'>
         <h1>Example form</h1>
+        {formSuccess !== '' && <p className='success'>{formSuccess}</p>}
         {formErrors.length > 0 && (
           <ul className='error'>
             {formErrors.map((error) => (
