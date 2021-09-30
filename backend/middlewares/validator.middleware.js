@@ -2,7 +2,7 @@ const { body } = require('express-validator');
 
 const validate = (method) => {
   switch (method) {
-    case 'handleUser': {
+    case 'handlePerson': {
       return [
         body('name')
           .not()
