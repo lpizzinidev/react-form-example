@@ -63,7 +63,7 @@ export const Form = () => {
   return (
     <div>
       <form onSubmit={handleSubmit} className='form'>
-        <h1>Example form</h1>
+        <h1>React form</h1>
         <AlertSuccess success={formSuccess} />
         <AlertError errors={formErrors} />
         <div>
