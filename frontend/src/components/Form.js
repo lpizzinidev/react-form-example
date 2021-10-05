@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
 
+import { AlertError } from './views/AlertError';
+import { AlertSuccess } from './views/AlertSuccess';
+
 export const Form = () => {
   const initialFormData = {
     name: '',
@@ -59,22 +62,16 @@ export const Form = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="form">
+      <form onSubmit={handleSubmit} className='form'>
         <h1>Example form</h1>
-        {formSuccess !== '' && <p className="success">{formSuccess}</p>}
-        {formErrors.length > 0 && (
-          <ul className="error">
-            {formErrors.map((error) => (
-              <li>{error}</li>
-            ))}
-          </ul>
-        )}
+        <AlertSuccess success={formSuccess} />
+        <AlertError errors={formErrors} />
         <div>
           <label>Name</label>
           <input
-            type="text"
-            name="name"
-            className="input"
+            type='text'
+            name='name'
+            className='input'
             value={formData.name}
             onInput={handleChange}
           />
@@ -82,9 +79,9 @@ export const Form = () => {
         <div>
           <label>Age</label>
           <input
-            type="number"
-            name="age"
-            className="input"
+            type='number'
+            name='age'
+            className='input'
             value={formData.age}
             onInput={handleChange}
           />
@@ -92,14 +89,14 @@ export const Form = () => {
         <div>
           <label>E-mail</label>
           <input
-            type="email"
-            name="email"
-            className="input"
+            type='email'
+            name='email'
+            className='input'
             value={formData.email}
             onInput={handleChange}
           />
         </div>
-        <input type="submit" className="button" value="Submit" />
+        <input type='submit' className='button' value='Submit' />
       </form>
     </div>
   );
